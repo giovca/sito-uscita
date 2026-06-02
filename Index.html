@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Una domandina...</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--rosa:#ff7eb6;--rosa-scuro:#e84d96;--crema:#fff6f9;--testo:#5a2a45;--giallo:#ffd166;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{font-family:'Quicksand',sans-serif;background:radial-gradient(circle at 20% 20%,#ffe3ef 0%,transparent 55%),radial-gradient(circle at 80% 80%,#fff0d6 0%,transparent 55%),linear-gradient(135deg,#fff6f9 0%,#ffeef6 100%);color:var(--testo);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow-x:hidden;position:relative;}
+  .cuore-bg{position:fixed;font-size:1.4rem;opacity:.35;animation:salita linear infinite;pointer-events:none;z-index:0;}
+  @keyframes salita{from{transform:translateY(110vh) rotate(0deg);}to{transform:translateY(-15vh) rotate(360deg);}}
+  .card{position:relative;z-index:2;background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border:3px solid #ffd0e2;border-radius:32px;padding:42px 36px;max-width:520px;width:92%;text-align:center;box-shadow:0 24px 60px rgba(232,77,150,.25);animation:entra .7s cubic-bezier(.2,.8,.2,1);}
+  @keyframes entra{from{opacity:0;transform:translateY(30px) scale(.95);}to{opacity:1;transform:none;}}
+  .gattino{font-size:6rem;line-height:1;display:inline-block;animation:dondola 2.5s ease-in-out infinite;filter:drop-shadow(0 8px 12px rgba(232,77,150,.3));}
+  @keyframes dondola{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(6deg);}}
+  h1{font-family:'Caveat',cursive;font-size:3.2rem;color:var(--rosa-scuro);margin:14px 0 6px;line-height:1.05;}
+  .sub{font-size:1.05rem;color:#a8678a;margin-bottom:28px;font-weight:500;}
+  .bottoni{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;position:relative;min-height:70px;}
+  button{font-family:'Quicksand',sans-serif;font-weight:700;font-size:1.2rem;padding:16px 38px;border:none;border-radius:50px;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease;}
+  .si{background:linear-gradient(135deg,var(--rosa) 0%,var(--rosa-scuro) 100%);color:#fff;box-shadow:0 10px 24px rgba(232,77,150,.4);}
+  .si:hover{transform:scale(1.08);box-shadow:0 14px 30px rgba(232,77,150,.55);}
+  .no{background:#fff;color:#b58aa3;border:2px solid #ffd0e2;}
+  .no.fuggi{position:fixed;z-index:5;}
+  .sezione{display:none;animation:entra .6s ease;}
+  .sezione.attiva{display:block;}
+  label{display:block;text-align:left;font-weight:600;margin:18px 4px 6px;color:var(--rosa-scuro);}
+  input[type=date],input[type=time]{width:100%;padding:14px 16px;border:2px solid #ffd0e2;border-radius:16px;font-family:'Quicksand',sans-serif;font-size:1.05rem;color:var(--testo);background:#fffafc;outline:none;}
+  input:focus{border-color:var(--rosa);}
+  .conferma{margin-top:26px;background:linear-gradient(135deg,var(--giallo) 0%,#ff9e5e 100%);color:#7a3d1a;width:100%;}
+  .conferma:hover{transform:scale(1.04);}
+  .finale{display:none;animation:entra .7s ease;}
+  .finale.attiva{display:block;}
+  .finale .gattino{animation:festa 1s ease-in-out infinite;}
+  @keyframes festa{0%,100%{transform:scale(1) rotate(-5deg);}50%{transform:scale(1.15) rotate(5deg);}}
+  .frase{font-size:1.15rem;line-height:1.6;margin:16px 0;font-weight:500;}
+  .dettaglio{background:#fff3f8;border-radius:18px;padding:16px;font-family:'Caveat',cursive;font-size:1.7rem;color:var(--rosa-scuro);margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="schermata-domanda" class="sezione attiva">
+    <span class="gattino">🐱</span>
+    <h1>Vuoi uscire con me?</h1>
+    <p class="sub">Prenditi pure tutto il tempo che vuoi... ma occhio al bottone "No" 😼</p>
+    <div class="bottoni">
+      <button class="si" onclick="diSi()">Sì 💕</button>
+      <button class="no" id="btnNo">No</button>
+    </div>
+  </div>
+  <div id="schermata-data" class="sezione">
+    <span class="gattino">😻</span>
+    <h1>Sapevo che avresti detto sì!</h1>
+    <p class="sub">Adesso scegli tu quando rapirti per qualche ora ✨</p>
+    <label for="data">Quale giorno?</label>
+    <input type="date" id="data">
+    <label for="ora">A che ora?</label>
+    <input type="time" id="ora">
+    <button class="conferma" onclick="conferma()">È un appuntamento! 🎉</button>
+  </div>
+  <div id="schermata-finale" class="finale">
+    <span class="gattino">🥳</span>
+    <h1>Affare fatto!</h1>
+    <div class="dettaglio" id="riepilogo"></div>
+    <p class="frase">Segna sul calendario: niente scuse, niente "ho mal di testa", niente gatti da accudire all'ultimo. 🐈</p>
+    <p class="frase">Io porto il buonumore (e probabilmente troppe battute), tu porta solo te stessa.</p>
+    <p class="frase">Conto già i minuti... e non sono bravo a contare, quindi sembreranno pochissimi! 💘</p>
+  </div>
+</div>
+<script>
+  const emoji=['💕','💖','🌸','✨','🐾','💗'];
+  for(let i=0;i<14;i++){const c=document.createElement('div');c.className='cuore-bg';c.textContent=emoji[Math.floor(Math.random()*emoji.length)];c.style.left=Math.random()*100+'vw';c.style.fontSize=(1+Math.random()*1.6)+'rem';c.style.animationDuration=(7+Math.random()*9)+'s';c.style.animationDelay=(-Math.random()*10)+'s';document.body.appendChild(c);}
+  const btnNo=document.getElementById('btnNo');
+  function scappa(){btnNo.classList.add('fuggi');const w=btnNo.offsetWidth,h=btnNo.offsetHeight;const x=Math.random()*(window.innerWidth-w-20)+10;const y=Math.random()*(window.innerHeight-h-20)+10;btnNo.style.left=x+'px';btnNo.style.top=y+'px';}
+  btnNo.addEventListener('mouseenter',scappa);
+  btnNo.addEventListener('mousedown',e=>{e.preventDefault();scappa();});
+  btnNo.addEventListener('touchstart',e=>{e.preventDefault();scappa();},{passive:false});
+  btnNo.addEventListener('click',e=>{e.preventDefault();scappa();});
+  function diSi(){document.getElementById('schermata-domanda').classList.remove('attiva');document.getElementById('schermata-data').classList.add('attiva');btnNo.style.display='none';}
+  function conferma(){const data=document.getElementById('data').value;const ora=document.getElementById('ora').value;if(!data||!ora){alert('Ehi, scegli giorno e ora! Non puoi lasciarmi sulle spine 🙀');return;}const d=new Date(data+'T'+ora);const opzioni={weekday:'long',day:'numeric',month:'long'};let testo=d.toLocaleDateString('it-IT',opzioni);testo=testo.charAt(0).toUpperCase()+testo.slice(1);document.getElementById('riepilogo').textContent='📅 '+testo+' alle '+ora;document.getElementById('schermata-data').classList.remove('attiva');document.getElementById('schermata-finale').classList.add('attiva');}
+</script>
+</body>
+</html>
