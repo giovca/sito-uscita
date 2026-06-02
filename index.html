@@ -94,9 +94,7 @@
     const testoCompleto=testo+' alle '+ora;
     document.getElementById('riepilogo').textContent='📅 '+testoCompleto;
     document.getElementById('schermata-data').classList.remove('attiva');
-    document.getElementById('schermata-finale').classList.add('attiva');
-    emailjs.send("service_15szuhj","template_asn5ktl",{appuntamento:testoCompleto}).catch(function(err){console.log('Email error:',err);});
-  }
+   fetch("https://formspree.io/f/xojbgrep",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({appuntamento:testoCompleto})});
 </script>
 </body>
 </html>
