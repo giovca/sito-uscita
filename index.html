@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
   :root{--rosa:#ff7eb6;--rosa-scuro:#e84d96;--crema:#fff6f9;--testo:#5a2a45;--giallo:#ffd166;}
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -72,6 +73,7 @@
   </div>
 </div>
 <script>
+  emailjs.init("JBML7jUmRqcG36x2S");
   const emoji=['💕','💖','🌸','✨','🐾','💗'];
   for(let i=0;i<14;i++){const c=document.createElement('div');c.className='cuore-bg';c.textContent=emoji[Math.floor(Math.random()*emoji.length)];c.style.left=Math.random()*100+'vw';c.style.fontSize=(1+Math.random()*1.6)+'rem';c.style.animationDuration=(7+Math.random()*9)+'s';c.style.animationDelay=(-Math.random()*10)+'s';document.body.appendChild(c);}
   const btnNo=document.getElementById('btnNo');
@@ -81,7 +83,20 @@
   btnNo.addEventListener('touchstart',e=>{e.preventDefault();scappa();},{passive:false});
   btnNo.addEventListener('click',e=>{e.preventDefault();scappa();});
   function diSi(){document.getElementById('schermata-domanda').classList.remove('attiva');document.getElementById('schermata-data').classList.add('attiva');btnNo.style.display='none';}
-  function conferma(){const data=document.getElementById('data').value;const ora=document.getElementById('ora').value;if(!data||!ora){alert('Ehi, scegli giorno e ora! Non puoi lasciarmi sulle spine 🙀');return;}const d=new Date(data+'T'+ora);const opzioni={weekday:'long',day:'numeric',month:'long'};let testo=d.toLocaleDateString('it-IT',opzioni);testo=testo.charAt(0).toUpperCase()+testo.slice(1);document.getElementById('riepilogo').textContent='📅 '+testo+' alle '+ora;document.getElementById('schermata-data').classList.remove('attiva');document.getElementById('schermata-finale').classList.add('attiva');}
+  function conferma(){
+    const data=document.getElementById('data').value;
+    const ora=document.getElementById('ora').value;
+    if(!data||!ora){alert('Ehi, scegli giorno e ora! Non puoi lasciarmi sulle spine 🙀');return;}
+    const d=new Date(data+'T'+ora);
+    const opzioni={weekday:'long',day:'numeric',month:'long'};
+    let testo=d.toLocaleDateString('it-IT',opzioni);
+    testo=testo.charAt(0).toUpperCase()+testo.slice(1);
+    const testoCompleto=testo+' alle '+ora;
+    document.getElementById('riepilogo').textContent='📅 '+testoCompleto;
+    document.getElementById('schermata-data').classList.remove('attiva');
+    document.getElementById('schermata-finale').classList.add('attiva');
+    emailjs.send("service_zbr162s","template_asn5ktl",{appuntamento:testoCompleto}).catch(function(err){console.log('Email error:',err);});
+  }
 </script>
 </body>
 </html>
